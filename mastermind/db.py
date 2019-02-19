@@ -2,7 +2,6 @@ from datetime import datetime
 import click
 from flask import (
     current_app,
-    g,
 )
 from flask.cli import with_appcontext
 from peewee import (
@@ -17,11 +16,6 @@ from peewee import (
 from playhouse.flask_utils import FlaskDB
 
 db_wrapper = FlaskDB()
-
-def close_db():
-    db = g.pop('db')
-    if db:
-        db.close()
 
 class BaseModel(db_wrapper.Model):
     def save(self, *args, **kwargs):
