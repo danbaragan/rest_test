@@ -14,10 +14,14 @@ from peewee import (
     SqliteDatabase,
 )
 from playhouse.flask_utils import FlaskDB
+from .gameengine import MAX_COLORS
 
 db_wrapper = FlaskDB()
 
 class BaseModel(db_wrapper.Model):
+    created = DateTimeField()
+    modified = DateTimeField()
+
     def save(self, *args, **kwargs):
         self.modified = datetime.utcnow()
         super(BaseModel, self).save(*args, **kwargs)
@@ -30,15 +34,19 @@ class BaseModel(db_wrapper.Model):
 
 
 class Game(BaseModel):
-    created = DateTimeField()
-    modified = DateTimeField()
-    # num_colors = IntegerField(default=6)
+    # num_colors = IntegerField(default=MAX_COLORS)
     num_rounds = IntegerField(default=12)
     play_colors = CharField() # an array would be nice here... postgres only...
     over = BooleanField(default=False)
 
+    @property
     def round_number(self):
+        """The round number we are currently playing, zero based"""
         return self.rounds.count()
+
+    @property
+    def rounds_chrono(self):
+        return self.rounds.order_by(Round.modified.desc())
 
     def __str__(self):
         return f"{self.id}: {self.play_colors}"
