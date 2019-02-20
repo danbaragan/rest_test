@@ -39,9 +39,11 @@ Notably, egg/installation code is missing.
  - Have a linux/macos system
  - Have python3 (>3.6, I use f strings)
  - Have virtualenv
- - virtualenv -p python3 virtualenvMasterind
- - pip install -r requirements.txt
- - cp env.sample .env # and choose values (the defaults should be fine)
- - pytest -vv
- - flask run
+ - `virtualenv -p python3 virtualenvMasterind`
+ - `. virtualenvMasterind/bin/activate`
+ - `pip install -r requirements.txt`
+ - `cp env.sample .env` # and choose values (the defaults should be fine)
+ - `pytest -vv`
+ - `flask init-db`
+ - `flask run`
 
