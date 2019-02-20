@@ -80,6 +80,7 @@ class RoundsList(Resource):
         r.answer = Round.encode(answer_ints)
         # check game win
         # check game over
+        # FIXME all this looks like game logic. It is weird to be here. No more time - it is what it is
         if answer_ints[0] == 4 or game.round_number + 1 == game.num_rounds:
             game.over = True
 
