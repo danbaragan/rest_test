@@ -1,10 +1,9 @@
 from datetime import datetime
 
 from flask import request
-from playhouse.shortcuts import model_to_dict, dict_to_model
 from flask_restful import Resource
 
-from .db import Game, Round
+from .db import Game, Round, db_wrapper
 from .gameengine import random_game, compute_answer
 from .serializer import game_schema, games_schema, round_schema, rounds_schema
 
@@ -47,7 +46,7 @@ class RoundsList(Resource):
     def get(self, game_id):
         try:
             game_rounds_q = Game.get(Game.id == game_id).rounds_chrono
-        except:
+        except Game.DoesNotExist:
             return {}, 404
 
         game_rounds = rounds_schema.dump(game_rounds_q).data
@@ -59,7 +58,7 @@ class RoundsList(Resource):
     def post(self, game_id):
         try:
             game = Game.get(Game.id == game_id, Game.over == False)
-        except:
+        except Game.DoesNotExist:
             return {'errors': {'game': [f'No such open game: {game_id}']}}, 400
 
         round_json_data = request.get_json()
@@ -70,7 +69,6 @@ class RoundsList(Resource):
         now = datetime.utcnow()
 
         # FIXME created and modified will not be the same initially
-        # FIXME this all part is fragile, should be with database.atomic
         r = Round(
             created=now,
             game=game,
@@ -84,8 +82,9 @@ class RoundsList(Resource):
         if answer_ints[0] == 4 or game.round_number + 1 == game.num_rounds:
             game.over = True
 
-        r.save()
-        game.save()
+        with db_wrapper.database:
+            r.save()
+            game.save()
 
         computed_round = round_schema.dump(r).data
         return {'answer': computed_round['answer']}, 201
@@ -94,8 +93,8 @@ class RoundsList(Resource):
 class RoundsDetail(Resource):
     def get(self, game_id, round_id):
         try:
-            round_q = Round.select().where(Round.game == game_id, Round.id == round_id)[0]
-        except:
+            round_q = Round.get(Round.game == game_id, Round.id == round_id)
+        except Round.DoesNotExist:
             return {}, 404
 
         game_round = round_schema.dump(round_q).data
