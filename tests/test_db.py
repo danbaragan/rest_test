@@ -1,5 +1,3 @@
-import pytest
-
 
 def test_game_basic(db_games):
     app, games = db_games

@@ -20,7 +20,6 @@ def app(tmp_path_factory):
         from mastermind.db import create_tables
         create_tables()
 
-    from mastermind.db import db_wrapper
     yield app
 
     with app.app_context():
@@ -93,9 +92,9 @@ def db_rounds(db_games):
 
         Round.delete().execute()
 
+
 @pytest.fixture
 def client(db_rounds):
     app, _ = db_rounds
-    from mastermind.db import db_wrapper
     return app.test_client()
 

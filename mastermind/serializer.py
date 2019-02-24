@@ -1,6 +1,5 @@
 from marshmallow import Schema, fields, ValidationError
 from flask_marshmallow import Marshmallow
-import json
 
 ma = Marshmallow()
 
@@ -62,13 +61,15 @@ class GameSchema(ma.Schema):
 # TODO not DRY
 class GameSchemaShort(ma.Schema):
     id = fields.Int(dump_only=True)
-    
+
+
 class RoundSchema(ma.Schema):
     id = fields.Int(dump_only=True)
     modified = fields.DateTime(dump_only=True)
     game = fields.Nested(GameSchema, only=('id',))
     hand = ColorsArray()
     answer = PegsArray()
+
 
 game_schema = GameSchema()
 games_schema = GameSchemaShort(many=True)

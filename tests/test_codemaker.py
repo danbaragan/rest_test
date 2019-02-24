@@ -1,7 +1,7 @@
-import pytest
 import json
 
 from mastermind.db import db_wrapper, Game
+
 
 def test_gameslist_get(client):
     resp = client.get('/games')

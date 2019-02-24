@@ -1,8 +1,5 @@
 from datetime import datetime
 import click
-from flask import (
-    current_app,
-)
 from flask.cli import with_appcontext
 from peewee import (
     BooleanField,
@@ -10,13 +7,12 @@ from peewee import (
     DateTimeField,
     IntegerField,
     ForeignKeyField,
-    Model,
-    SqliteDatabase,
 )
 from playhouse.flask_utils import FlaskDB
-from .gameengine import MAX_COLORS
+# from .gameengine import MAX_COLORS
 
 db_wrapper = FlaskDB()
+
 
 class BaseModel(db_wrapper.Model):
     created = DateTimeField()
@@ -83,6 +79,7 @@ class Round(BaseModel):
 
 MODELS = [Game, Round]
 
+
 def create_tables():
     with db_wrapper.database:
         db_wrapper.database.create_tables(MODELS)
@@ -99,6 +96,7 @@ def init_db_command():
     # init tables
     create_tables()
     click.echo("Initialized the database.")
+
 
 def init_app(app):
     app.cli.add_command(init_db_command)

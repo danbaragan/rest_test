@@ -2,6 +2,7 @@ from mastermind import gameengine
 
 import pytest
 
+
 @pytest.mark.parametrize("expect_input, expect_output", [
     (([0,1,2,3], [4,4,5,5]), (0,0)), # no match
     (([0,1,2,3], [5,5,1,5]), (0,1)), # 1 color

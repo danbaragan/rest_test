@@ -1,6 +1,7 @@
 import pytest
 import json
-from mastermind.db import db_wrapper, Game, Round
+from mastermind.db import db_wrapper, Game
+
 
 def test_roundslist_post(client):
     expected_game = Game.select()[:1][0]

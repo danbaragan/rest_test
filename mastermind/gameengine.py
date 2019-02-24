@@ -3,8 +3,10 @@ from random import randint
 
 MAX_COLORS = 6
 
+
 def random_game():
     return [ randint(0, MAX_COLORS) for i in range(MAX_COLORS) ]
+
 
 def compute_answer(game, hand):
     game_rest = []

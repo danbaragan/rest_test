@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 from . import db
 
+
 def create_app(test_config=None):
 
     load_dotenv()
