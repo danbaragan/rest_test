@@ -24,8 +24,6 @@ There were several requirements for this that were met in various degrees
 
 ### the code should be production ready
 Partial.
-There is .env detection that can be used to steer the app towards prod, dev, staging
-test is separate, by `create_app` factory argument.
 It has unit and integration tests: `pytest -vv`
 The layout is in place so one can plug different db engines, plug through different wsgi, etc
 But I wouldn't call this production ready at all.
