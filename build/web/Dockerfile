@@ -4,9 +4,7 @@ RUN apt-get -y update &&\
     apt-get -y --no-install-recommends install \
     vim \
     sudo \
-    curl \
-    ;
-    #&& apt-get clean && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
 RUN adduser --disabled-password --gecos '' --shell /bin/false web &&\

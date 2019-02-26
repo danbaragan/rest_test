@@ -8,5 +8,5 @@ services:
         stdin_open: true
         command: debug
         volumes:
-            - ./web/mastermind:/home/web/mastermind
-            - ./web/tests:/home/web/tests
+            - ./web/mastermind:/home/web/mastermind:ro
+            - ./web/tests:/home/web/tests:ro
