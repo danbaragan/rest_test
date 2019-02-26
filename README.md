@@ -37,7 +37,7 @@ Notably, egg/installation code is missing.
 
 # Install & Run
  - Have a linux/macos system
- - Have python3 (>3.6, I use f strings)
+ - Have python3.7
  - Have virtualenv
  - `virtualenv -p python3 virtualenvMasterind`
  - `. virtualenvMasterind/bin/activate`
