@@ -3,15 +3,11 @@ from pathlib import Path
 
 from flask import Flask
 from flask_restful import Api
-from dotenv import load_dotenv
 
 from . import db
 
 
 def create_app(test_config=None):
-
-    load_dotenv()
-
     app = Flask(__name__)
     instance_path = Path(app.instance_path)
     app.config.from_mapping(
