@@ -6,7 +6,7 @@ init() {
 
 if [ "$1" == "run" ]; then
     [ -f instance/${DATABASE_URL} ] || init
-    exec flask run -h 0.0.0.0
+    exec gunicorn -w 2 -b ${FLASK_HOST-127.0.0.1}:${FLASK_PORT-5000} "mastermind:create_app()"
 elif [ "$1" == "debug" ]; then
     [ -f instance/${DATABASE_URL} ] || init
     exec flask run -h 0.0.0.0

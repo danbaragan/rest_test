@@ -23,14 +23,17 @@ There were several requirements for this that were met in various degrees
     You cannot play a next round in a finished game. The game ends after 12 rounds.
 
 ### the code should be production ready
-Partial.
+Partial. In progress. The repo is centered on development.
+Remove/rename docker-compose.override.yml for a production environment.
+
 It has unit and integration tests: `pytest -vv`
+If you have `docker-compose up` running you can do a `docker-compose exec web pytest -vv` to run the tests.
 The layout is in place so one can plug different db engines, plug through different wsgi, etc
 But I wouldn't call this production ready at all.
-Notably, egg/installation code is missing.
+Notably, egg/wheel/installation code is missing.
 
 ### time taken should be 6-8h
-  No way. It took at least 2x8h.
+  No way. It took at least 2x8h. (and the docker part is still in progress)
 
 
 # Install & Run
