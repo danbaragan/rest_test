@@ -10,3 +10,8 @@ services:
         volumes:
             - ./web/mastermind:/home/web/mastermind:ro
             - ./web/tests:/home/web/tests:ro
+
+    web_server:
+        command: debug
+        volumes:
+            - ./build/web_server/nginx.conf.template:/etc/nginx/conf.d/nginx.conf.template

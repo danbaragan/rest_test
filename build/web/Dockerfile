@@ -33,7 +33,6 @@ ADD build/web/entrypoint.sh \
 RUN chown -R web:web $HOME
 
 USER $USER
-EXPOSE 5000
 VOLUME ["${HOME}/instance"]
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["run"]

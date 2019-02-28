@@ -3,4 +3,3 @@ SECRET_KEY=someSecret
 FLASK_ENV=development
 DATABASE_URL=mastermind.db
 FLASK_HOST=0.0.0.0
-FLASK_PORT=5000
