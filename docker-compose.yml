@@ -2,7 +2,7 @@ version: "2"
 
 services:
     web:
-        container_name: web
+        container_name: rest_test_web
         build:
             dockerfile: build/web/Dockerfile
             context: .
@@ -11,11 +11,9 @@ services:
             - deploy/web/env
         volumes:
             - db:/home/web/instance
-        depends_on:
-            - web_server
 
     web_server:
-        container_name: web_server
+        container_name: rest_test_web_server
         build:
             dockerfile: build/web_server/Dockerfile
             context: .
@@ -24,6 +22,8 @@ services:
             - deploy/web_server/env
         ports:
             - "80:80"
+        depends_on:
+            - web
 
 volumes:
     db:

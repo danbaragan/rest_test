@@ -1,2 +1,4 @@
 .env
+deploy
+deploy.prod/
 instance/

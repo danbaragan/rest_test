@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+. common.sh
+
 init() {
     flask init-db
 }
@@ -10,7 +12,7 @@ if [ "$1" == "run" ]; then
         -w 2 \
         --forwarded-allow-ips="*" \
         -b ${FLASK_HOST-127.0.0.1}:${FLASK_PORT-5000} \
-        "mastermind:create_app()"
+        "${FLASK_APP}:create_app()"
 
 elif [ "$1" == "debug" ]; then
     [ -f instance/${DATABASE_URL} ] || init
