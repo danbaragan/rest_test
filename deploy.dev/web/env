@@ -1,5 +1,7 @@
+# make sure to check ../env for common env across containers
+FLASK_ENV=development
+
 FLASK_APP=mastermind
 SECRET_KEY=someSecret
-FLASK_ENV=development
-DATABASE_URL=mastermind.db
 FLASK_HOST=0.0.0.0
+DATABASE_HOST=postgres

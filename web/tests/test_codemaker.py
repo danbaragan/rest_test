@@ -1,6 +1,6 @@
 import json
 
-from mastermind.db import db_wrapper, Game
+from mastermind.db import db_wrapper, Game, Round
 
 
 def test_gameslist_get(client):
@@ -46,12 +46,12 @@ def test_gamesdetail_get_nonexistent(client):
 
 
 def test_roundslist_get(client):
-    game = Game.select()[:1][0]
-    expected_rounds = game.rounds_chrono
+    expected_game = Game.get(Game.play_colors == "1234")
+    expected_rounds = expected_game.rounds_chrono
     expected_rounds_ids = [ o.id for o in expected_rounds ]
     db_wrapper.database.close()
 
-    resp = client.get(f"/games/{game.id}/rounds")
+    resp = client.get(f"/games/{expected_game.id}/rounds")
     assert resp.status_code == 200
     data = resp.json
     rounds = data['rounds']
@@ -82,7 +82,7 @@ def test_roundslist_post_wrong_game(client):
 
 
 def test_roundslist_post_wrong_type(client):
-    expected_game = Game.select()[:1][0]
+    expected_game = Game.get(Game.play_colors == "1234")
     db_wrapper.database.close()
 
     req = {'hand': 'RED'}
@@ -97,7 +97,7 @@ def test_roundslist_post_wrong_type(client):
 
 
 def test_roundslist_post_wrong_length(client):
-    expected_game = Game.select()[:1][0]
+    expected_game = Game.get(Game.play_colors == "1234")
     db_wrapper.database.close()
 
     req = {'hand': ['RED', 'GREEN']}
@@ -112,7 +112,7 @@ def test_roundslist_post_wrong_length(client):
 
 
 def test_roundslist_post_wrong_color(client):
-    expected_game = Game.select()[:1][0]
+    expected_game = Game.get(Game.play_colors == "1234")
     db_wrapper.database.close()
 
     req = {'hand': ['RED', 'RED', 'RED', 'notAColor']}
@@ -127,7 +127,7 @@ def test_roundslist_post_wrong_color(client):
 
 
 def test_roundslist_post(client):
-    expected_game = Game.select()[:1][0]
+    expected_game = Game.get(Game.play_colors == "1234")
     db_wrapper.database.close()
 
     req = {'hand': ['GREEN', 'BLUE', 'YELLOW', 'MAGENTA']}
@@ -142,10 +142,10 @@ def test_roundslist_post(client):
 
 
 def test_roundsdetail_get(client):
-    expected_game = Game.select()[:1][0]
-    expected_rounds = expected_game.rounds[:2]
-    expected_round1 = expected_rounds[0]
-    expected_round2 = expected_rounds[1]
+    expected_game = Game.get(Game.play_colors == "1234")
+    expected_round1 = expected_game.rounds.where(Round.hand == "0011")[0]
+    # expected_round1 = expected_rounds[0]
+    # expected_round2 = expected_rounds[1]
     db_wrapper.database.close()
 
     resp = client.get(f"/games/{expected_game.id}/rounds/{expected_round1.id}")
@@ -158,15 +158,15 @@ def test_roundsdetail_get(client):
     pegs = round['answer']
     assert pegs == ['BLACK', 'BLACK', 'WHITE']
 
-    resp = client.get(f"/games/{expected_game.id}/rounds/{expected_round2.id}")
-    assert resp.status_code == 200
-    assert resp.json['round']['id'] == expected_round2.id
-    pegs = resp.json['round']['answer']
-    assert pegs == []
+    # resp = client.get(f"/games/{expected_game.id}/rounds/{expected_round2.id}")
+    # assert resp.status_code == 200
+    # assert resp.json['round']['id'] == expected_round2.id
+    # pegs = resp.json['round']['answer']
+    # assert pegs == []
     
 
 def test_roundsdetail_get_nonexistent(client):
-    expected_game = Game.select()[:1][0]
+    expected_game = Game.get(Game.play_colors == "1234")
     db_wrapper.database.close()
 
     resp = client.get(f"/games/{expected_game.id}/rounds/1111111")

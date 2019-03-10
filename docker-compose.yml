@@ -10,23 +10,35 @@ services:
       - deploy/env
       - deploy/web/env
     volumes:
-      - db:/home/web/instance
+      - web:/home/web/instance
+    depends_on:
+      - postgres
 
-    web_server:
-      container_name: rest_test_web_server
-      build:
-        dockerfile: build/web_server/Dockerfile
-        context: .
-      env_file:
-        - deploy/env
-        - deploy/web_server/env
-      ports:
-        - "80:80"
-      depends_on:
-        - web
+  postgres:
+    container_name: rest_test_postgres
+    image: postgres
+    # env vars will initialize volume if empty; it will allow public connect&co though
+    env_file:
+      - deploy/env
+      - deploy/postgres/env
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  web_server:
+    container_name: rest_test_web_server
+    build:
+      dockerfile: build/web_server/Dockerfile
+      context: .
+    env_file:
+      - deploy/env
+      - deploy/web_server/env
+    ports:
+      - "80:80"
+    depends_on:
+      - web
 
 volumes:
   db:
     driver: local
   web:
-    driver: local`
+    driver: local

@@ -29,7 +29,7 @@ def test_game_encode(db_games):
 
 
 def test_round_encode_decode(db_rounds):
-    app, rounds = db_rounds
+    app, games, rounds = db_rounds
     r1, r2, r3 = rounds
     assert r3.decode() == [0,0,0,5]
     # decode hand
