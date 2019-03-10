@@ -1,15 +1,15 @@
-from marshmallow import Schema, fields, ValidationError
+from marshmallow import fields, ValidationError
 from flask_marshmallow import Marshmallow
 
 ma = Marshmallow()
 
 num2colors = {
-    0: 'RED', #0
-    1: 'GREEN', #1
-    2: 'BLUE', #2
-    3: 'CYAN', #3
-    4: 'YELLOW', #4
-    5: 'MAGENTA', #5
+    0: 'RED',  # 0
+    1: 'GREEN',  # 1
+    2: 'BLUE',  # 2
+    3: 'CYAN',  # 3
+    4: 'YELLOW',  # 4
+    5: 'MAGENTA',  # 5
 }
 colors2num = {
     'RED': 0,
